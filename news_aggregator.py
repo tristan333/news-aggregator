@@ -88,7 +88,7 @@ def send_email(subject, html_content):
 
 def main():
     """Main function to run the news aggregator"""
-    print("\n🌍 SEMICONDUCTOR GEOPOLITICS NEWS AGGREGATOR")
+    print("\n🌍 SEMICONDUCTOR GEOPOLITICS NEWS AGGREGATOR - Tristan Paton")
     print(f"Fetching news... {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
     
     # Build HTML email content
