@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semiconductor News</title>
+    <title>Semiconductor Intelligence Terminal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,167 +16,362 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #fafafa;
-            color: #1a1a1a;
-            line-height: 1.8;
-            font-weight: 300;
+            background-color: #0a0e1a;
+            color: #e0e6ed;
+            line-height: 1.6;
         }
 
-        .container {
-            max-width: 900px;
+        .terminal-header {
+            background: linear-gradient(180deg, #141922 0%, #0f1319 100%);
+            border-bottom: 1px solid #1e2938;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 80px 40px;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        header {
-            margin-bottom: 100px;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 40px;
+        .terminal-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         h1 {
-            font-size: 28px;
-            font-weight: 400;
-            letter-spacing: -0.5px;
-            margin-bottom: 12px;
-            color: #000;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+            font-family: 'IBM Plex Mono', monospace;
         }
 
-        .subtitle {
-            font-size: 14px;
-            color: #666;
-            font-weight: 300;
-            letter-spacing: 0.3px;
+        .meta-info {
+            display: flex;
+            gap: 24px;
+            font-size: 11px;
+            font-family: 'IBM Plex Mono', monospace;
+            color: #6b7f99;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .meta-label {
+            color: #4a5a6f;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 40px 80px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1a2332 0%, #141d2b 100%);
+            border: 1px solid #1e2938;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #6b7f99;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #00ff88;
+            font-family: 'IBM Plex Mono', monospace;
         }
 
         .topic-section {
-            margin-bottom: 120px;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #141d2b 0%, #0f1621 100%);
+            border: 1px solid #1e2938;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .topic-header {
+            background: #1a2332;
+            border-bottom: 1px solid #1e2938;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .topic-title {
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: #999;
-            margin-bottom: 40px;
-            font-weight: 500;
+            color: #00b8ff;
+            font-weight: 600;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .article-count {
+            font-size: 11px;
+            color: #6b7f99;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .articles-container {
+            padding: 24px;
         }
 
         .article {
-            margin-bottom: 60px;
-            padding-bottom: 60px;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 24px 0;
+            border-bottom: 1px solid #1e2938;
         }
 
         .article:last-child {
             border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
         }
 
         .article-title {
-            font-size: 20px;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: 600;
             line-height: 1.5;
-            margin-bottom: 16px;
-            color: #000;
-            letter-spacing: -0.3px;
+            color: #ffffff;
+            letter-spacing: -0.2px;
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .article-priority {
+            background: #00ff8820;
+            color: #00ff88;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'IBM Plex Mono', monospace;
+            white-space: nowrap;
         }
 
         .article-meta {
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 20px;
-            letter-spacing: 0.3px;
+            display: flex;
+            gap: 16px;
+            font-size: 11px;
+            color: #6b7f99;
+            margin-bottom: 14px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .meta-divider {
+            color: #2d3e52;
         }
 
         .article-description {
-            font-size: 15px;
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 20px;
-            font-weight: 300;
+            font-size: 14px;
+            color: #9ca9ba;
+            line-height: 1.7;
+            margin-bottom: 16px;
         }
 
         .article-link {
-            font-size: 13px;
-            color: #000;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #00b8ff;
             text-decoration: none;
-            border-bottom: 1px solid #000;
-            padding-bottom: 2px;
-            letter-spacing: 0.3px;
-            transition: opacity 0.3s ease;
+            font-weight: 500;
+            border: 1px solid #00b8ff30;
+            padding: 8px 16px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            font-family: 'IBM Plex Mono', monospace;
         }
 
         .article-link:hover {
-            opacity: 0.5;
+            background: #00b8ff20;
+            border-color: #00b8ff;
         }
 
-        .refresh-note {
-            text-align: center;
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 80px;
-            padding: 20px;
-            border: 1px solid #e0e0e0;
-            letter-spacing: 0.5px;
+        .article-link::after {
+            content: "→";
+            transition: transform 0.2s ease;
+        }
+
+        .article-link:hover::after {
+            transform: translateX(3px);
         }
 
         .no-articles {
-            font-size: 14px;
-            color: #999;
+            font-size: 13px;
+            color: #6b7f99;
             font-style: italic;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid #1e2938;
+            margin-top: 60px;
+        }
+
+        .footer-text {
+            font-size: 11px;
+            color: #4a5a6f;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .author {
+            color: #00b8ff;
+            font-weight: 500;
         }
 
         @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
             .container {
-                padding: 60px 24px;
+                padding: 24px 20px;
             }
 
-            h1 {
-                font-size: 24px;
+            .dashboard-grid {
+                grid-template-columns: 1fr;
             }
 
-            .topic-section {
-                margin-bottom: 80px;
+            .article-header {
+                flex-direction: column;
+                gap: 12px;
             }
 
-            .article {
-                margin-bottom: 40px;
-                padding-bottom: 40px;
+            .article-title {
+                margin-right: 0;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-        <h1>Semiconductor Geopolitics</h1>
-        <p class="subtitle">Last updated {{ current_time }} · Curated by Tristan Paton</p>
-        </header>
+    <div class="terminal-header">
+        <div class="header-content">
+            <div class="terminal-title">
+                <div class="status-indicator"></div>
+                <h1>SEMICONDUCTOR INTELLIGENCE TERMINAL</h1>
+            </div>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span class="meta-label">UPDATED:</span>
+                    <span>{{ current_time }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">STATUS:</span>
+                    <span style="color: #00ff88;">LIVE</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <div class="refresh-note">
-            Refresh page for latest articles
+    <div class="container">
+        <div class="dashboard-grid">
+            {% set total_articles = news_data.values() | map('length') | sum %}
+            <div class="stat-card">
+                <div class="stat-label">Total Articles</div>
+                <div class="stat-value">{{ total_articles }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Data Sources</div>
+                <div class="stat-value">{{ news_data.keys() | length }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Last Refresh</div>
+                <div class="stat-value" style="font-size: 16px;">{{ current_time.split()[1][:5] }}</div>
+            </div>
         </div>
 
         {% for topic, articles in news_data.items() %}
         <section class="topic-section">
-            <h2 class="topic-title">{{ topic.replace('_', ' ') }}</h2>
+            <div class="topic-header">
+                <h2 class="topic-title">{{ topic.replace('_', ' ') }}</h2>
+                <span class="article-count">{{ articles|length }} ITEMS</span>
+            </div>
             
-            {% if articles %}
-                {% for article in articles %}
-                <article class="article">
-                    <h3 class="article-title">{{ article.title }}</h3>
-                    <div class="article-meta">
-                        {{ article.source.name }} · {{ article.publishedAt[:10] }}
-                    </div>
-                    <p class="article-description">{{ article.description }}</p>
-                    <a href="{{ article.url }}" class="article-link" target="_blank">Read article</a>
-                </article>
-                {% endfor %}
-            {% else %}
-                <p class="no-articles">No articles available</p>
-            {% endif %}
+            <div class="articles-container">
+                {% if articles %}
+                    {% for article in articles %}
+                    <article class="article">
+                        <div class="article-header">
+                            <h3 class="article-title">{{ article.title }}</h3>
+                            <span class="article-priority">PRIORITY</span>
+                        </div>
+                        <div class="article-meta">
+                            <span>{{ article.source.name }}</span>
+                            <span class="meta-divider">|</span>
+                            <span>{{ article.publishedAt[:10] }}</span>
+                            <span class="meta-divider">|</span>
+                            <span>{{ article.publishedAt[11:16] }} UTC</span>
+                        </div>
+                        <p class="article-description">{{ article.description }}</p>
+                        <a href="{{ article.url }}" class="article-link" target="_blank">READ FULL REPORT</a>
+                    </article>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-articles">No data available for this category</p>
+                {% endif %}
+            </div>
         </section>
         {% endfor %}
+
+        <div class="footer">
+            <p class="footer-text">TERMINAL DEVELOPED BY <span class="author">TRISTAN PATON</span> | CHRONOGRAPH</p>
+        </div>
     </div>
 </body>
 </html>
