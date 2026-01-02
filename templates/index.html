@@ -440,61 +440,48 @@
 
      @media (max-width: 768px) {
             .header-content {
-                flex-wrap: wrap;
-                padding: 12px 16px;
-                gap: 8px;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 16px;
+                gap: 16px;
+            }
+
+            .terminal-title {
+                width: 100%;
+                justify-content: center;
             }
 
             .terminal-title h1 {
-                font-size: 13px;
-                letter-spacing: -0.5px;
-            }
-
-            .status-indicator {
-                width: 6px;
-                height: 6px;
+                font-size: 16px;
             }
 
             .terminal-nav-inline {
-                flex: 1 0 100%;
+                width: 100%;
                 justify-content: center;
-                order: 3;
-                gap: 12px;
-            }
-
-            .nav-tab-inline {
-                font-size: 10px;
-            }
-
-            .nav-divider-inline {
-                font-size: 10px;
             }
 
             .meta-info {
-                order: 2;
-                font-size: 9px;
-                gap: 12px;
-            }
-
-            .meta-label {
-                display: none;
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
             }
 
             .container {
-                padding: 16px 12px;
+                padding: 20px 16px;
             }
 
             .dashboard-grid {
                 grid-template-columns: 1fr;
-                gap: 12px;
             }
 
             .search-container {
                 padding: 16px;
             }
 
-            .stat-card {
-                padding: 14px;
+            .topic-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
             }
         }
     </style>
