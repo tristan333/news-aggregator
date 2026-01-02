@@ -102,9 +102,9 @@
             padding: 24px;
         }
 
-        .search-bar {
+       .search-bar {
             width: 100%;
-            padding: 16px 20px;
+            padding: 16px 50px 16px 20px;  /* Changed this line - added space on right */
             font-size: 15px;
             background: #0f1621;
             border: 1px solid #1e2938;
@@ -126,27 +126,31 @@
         }
         .clear-btn {
             position: absolute;
-            right: 12px;
+            right: 16px;
             top: 50%;
             transform: translateY(-50%);
             background: #1e2938;
             border: none;
             color: #6b7f99;
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 16px;
+            line-height: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
+            padding: 0;
+            margin: 0;
         }
 
         .clear-btn:hover {
             background: #00b8ff;
             color: #ffffff;
         }
+
 
         .filter-options {
             display: flex;
