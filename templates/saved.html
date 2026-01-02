@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Articles - Semiconductor Terminal</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="terminal-header">
+        <div class="header-content">
+            <div class="terminal-title">
+                <div class="status-indicator"></div>
+                <h1>SEMICONDUCTOR INTELLIGENCE TERMINAL</h1>
+            </div>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span class="meta-label">UPDATED:</span>
+                    <span>{{ current_time }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">STATUS:</span>
+                    <span style="color: #00ff88;">LIVE</span>
+                </div>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <nav class="terminal-nav">
+            <a href="/" class="nav-tab">FEED</a>
+            <a href="/saved" class="nav-tab active">SAVED</a>
+            <a href="/about" class="nav-tab">ABOUT</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h2 class="page-title">SAVED ARTICLES</h2>
+            <button id="clearAllBtn" class="action-btn" style="display: none;">CLEAR ALL</button>
+        </div>
+
+        <div id="savedArticlesContainer">
+            <div class="empty-state">
+                <div class="empty-icon">📚</div>
+                <h3>No saved articles yet</h3>
+                <p>Start saving articles from the feed to build your collection</p>
+                <a href="/" class="empty-link">Go to Feed →</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='saved.js') }}"></script>
+</body>
+</html>

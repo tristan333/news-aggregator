@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Semiconductor Terminal</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #0a0e1a;
+            color: #e0e6ed;
+            line-height: 1.6;
+        }
+
+        .terminal-header {
+            background: linear-gradient(180deg, #141922 0%, #0f1319 100%);
+            border-bottom: 1px solid #1e2938;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        h1 {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 24px;
+            font-size: 11px;
+            font-family: 'IBM Plex Mono', monospace;
+            color: #6b7f99;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .meta-label {
+            color: #4a5a6f;
+        }
+
+        .nav-divider {
+            max-width: 1400px;
+            margin: 20px auto 0;
+            padding: 0 40px;
+            border-bottom: 1px solid #1e2938;
+        }
+
+        .terminal-nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-tab {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            color: #6b7f99;
+            text-decoration: none;
+            padding: 16px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tab:hover {
+            color: #ffffff;
+            border-bottom-color: #00b8ff50;
+        }
+
+        .nav-tab.active {
+            color: #00b8ff;
+            border-bottom-color: #00b8ff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 40px 80px;
+        }
+
+        .about-section {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #1e2938;
+        }
+
+        .about-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00b8ff;
+            margin-bottom: 20px;
+        }
+
+        .about-section h2 {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .about-section p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #9ca9ba;
+            margin-bottom: 16px;
+        }
+
+        .about-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .about-section li {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #9ca9ba;
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .about-section li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #00b8ff;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .tech-item {
+            background: linear-gradient(135deg, #1a2332 0%, #141d2b 100%);
+            border: 1px solid #1e2938;
+            padding: 16px;
+            border-radius: 4px;
+        }
+
+        .tech-item-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            color: #6b7f99;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .tech-item-value {
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .link-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: #00b8ff;
+            text-decoration: none;
+            border: 1px solid #00b8ff30;
+            padding: 12px 20px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            margin-right: 12px;
+            margin-top: 12px;
+        }
+
+        .link-button:hover {
+            background: #00b8ff20;
+            border-color: #00b8ff;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .container {
+                padding: 40px 24px;
+            }
+
+            .tech-stack {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-header">
+        <div class="header-content">
+            <div class="terminal-title">
+                <div class="status-indicator"></div>
+                <h1>SEMICONDUCTOR INTELLIGENCE TERMINAL</h1>
+            </div>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span class="meta-label">UPDATED:</span>
+                    <span>{{ current_time }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">STATUS:</span>
+                    <span style="color: #00ff88;">LIVE</span>
+                </div>
+            </div>
+        </div>
+        <div class="nav-divider"></div>
+        <nav class="terminal-nav">
+            <a href="/" class="nav-tab">FEED</a>
+            <a href="/saved" class="nav-tab">SAVED</a>
+            <a href="/about" class="nav-tab active">ABOUT</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="about-section">
+            <div class="section-title">MISSION</div>
+            <h2>Tracking the Semiconductor Arms Race</h2>
+            <p>The global competition for semiconductor supremacy is reshaping international relations, economic policy, and technological innovation. This terminal aggregates real-time intelligence on chip technology, export controls, and the evolving tech rivalry between the United States and China.</p>
+            <p>Built as a tool for monitoring one of the most consequential technology stories of our time—where silicon has become as strategic as oil, and manufacturing capability translates directly to economic and military power.</p>
+        </div>
+
+        <div class="about-section">
+            <div class="section-title">DATA SOURCES</div>
+            <h2>How It Works</h2>
+            <p>This terminal continuously aggregates news from trusted sources via NewsAPI, focusing on four key areas:</p>
+            <ul>
+                <li><strong>Semiconductors & US-China Relations:</strong> Trade policy, export restrictions, and diplomatic tensions</li>
+                <li><strong>Chip Technology Geopolitics:</strong> Manufacturing capacity, supply chain security, and technological innovation</li>
+                <li><strong>TSMC, China & Taiwan:</strong> The critical role of Taiwan Semiconductor Manufacturing Company in global chip production</li>
+                <li><strong>Export Controls:</strong> US restrictions on semiconductor equipment, technology transfer, and strategic competition</li>
+            </ul>
+            <p>Articles are automatically deduplicated, filtered by relevance, and updated in real-time. The terminal pulls from major financial publications, technology news outlets, and policy journals.</p>
+        </div>
+
+        <div class="about-section">
+            <div class="section-title">TECHNICAL STACK</div>
+            <h2>Built With</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <div class="tech-item-label">Backend</div>
+                    <div class="tech-item-value">Python + Flask</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-item-label">Data Source</div>
+                    <div class="tech-item-value">NewsAPI</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-item-label">Email Service</div>
+                    <div class="tech-item-value">SendGrid</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-item-label">Deployment</div>
+                    <div class="tech-item-value">Render</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-item-label">Version Control</div>
+                    <div class="tech-item-value">Git + GitHub</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-item-label">UI Framework</div>
+                    <div class="tech-item-value">Custom CSS</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <div class="section-title">ABOUT THE DEVELOPER</div>
+            <h2>Tristan Paton</h2>
+            <p>Data Analyst at Chronograph, working on data systems and API integrations for private capital markets. Background in Computer Science and French from Denison University, with dual US-German citizenship.</p>
+            <p>This project combines professional interest in data infrastructure with a personal fascination for how technology reshapes global power dynamics—particularly semiconductor supply chains, export control policy, and the intersection of technology and international relations.</p>
+            
+            <a href="https://github.com/tristan333/news-aggregator" class="link-button" target="_blank">
+                View on GitHub →
+            </a>
+            <a href="https://www.linkedin.com/in/tristanpaton/" class="link-button" target="_blank">
+                Connect on LinkedIn →
+            </a>
+        </div>
+
+        <div class="about-section">
+            <div class="section-title">OPEN SOURCE</div>
+            <h2>Built in Public</h2>
+            <p>This project is open source and continuously evolving. The code is available on GitHub for anyone interested in building similar intelligence-gathering tools, learning Flask development, or exploring API integrations.</p>
+            <p>Future development will include sentiment analysis, historical archiving, custom alert systems, and enhanced data visualization capabilities.</p>
+        </div>
+    </div>
+</body>
+</html>
