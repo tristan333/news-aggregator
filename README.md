@@ -48,4 +48,4 @@ Tristan Paton - Analyst at Chronograph
 
 ---
 
-*Note: This is a learning project focused on building practical technical skills for solutions engineering work.*
+*Note: This is a learning project focused on building practical technical skills.*
