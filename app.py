@@ -40,20 +40,13 @@ def fetch_news(query):
         'pageSize': 5
     }
     
-    print(f"Fetching news for: {query}")  # DEBUG
-    print(f"API Key present: {bool(NEWS_API_KEY)}")  # DEBUG
-    
     response = requests.get(url, params=params)
     
-    print(f"Status Code: {response.status_code}")  # DEBUG
-    
     if response.status_code == 200:
-        articles = response.json()['articles']
-        print(f"Got {len(articles)} articles")  # DEBUG
-        return articles
+        return response.json()['articles']
     else:
-        print(f"Error response: {response.text}")  # DEBUG
         return []
+
 @app.route('/')
 def home():
     """Main page - shows all news"""
