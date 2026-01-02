@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semiconductor Intelligence Terminal</title> <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>">
+    <title>Semiconductor Intelligence Terminal</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -90,6 +91,81 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 40px 40px 80px;
+        }
+
+        /* Search Bar Styles */
+        .search-container {
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #1a2332 0%, #141d2b 100%);
+            border: 1px solid #1e2938;
+            border-radius: 4px;
+            padding: 24px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 15px;
+            background: #0f1621;
+            border: 1px solid #1e2938;
+            border-radius: 4px;
+            color: #e0e6ed;
+            font-family: 'IBM Plex Mono', monospace;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #00b8ff;
+            box-shadow: 0 0 0 3px rgba(0, 184, 255, 0.1);
+        }
+
+        .search-bar::placeholder {
+            color: #6b7f99;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: #1a2332;
+            border: 1px solid #1e2938;
+            border-radius: 4px;
+            color: #9ca9ba;
+            font-size: 12px;
+            font-family: 'IBM Plex Mono', monospace;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-btn:hover {
+            background: #1e2938;
+            color: #ffffff;
+        }
+
+        .filter-btn.active {
+            background: #00b8ff20;
+            border-color: #00b8ff;
+            color: #00b8ff;
+        }
+
+        .article.hidden {
+            display: none;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7f99;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
         }
 
         .dashboard-grid {
@@ -320,6 +396,21 @@
     </div>
 
     <div class="container">
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Search articles by keyword, source, or topic..."
+                class="search-bar"
+            >
+            <div class="filter-options">
+                <button class="filter-btn active" data-filter="all">All Sources</button>
+                <button class="filter-btn" data-filter="recent">Last 24h</button>
+                <button class="filter-btn" data-filter="older">Older</button>
+            </div>
+        </div>
+
         <div class="dashboard-grid">
             {% set total_articles = news_data.values() | map('length') | sum %}
             <div class="stat-card">
@@ -373,5 +464,89 @@
             <p class="footer-text">TERMINAL DEVELOPED BY <span class="author">TRISTAN PATON</span></p>
         </div>
     </div>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const articles = document.querySelectorAll('.article');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        
+        let currentFilter = 'all';
+
+        // Search function
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            filterArticles(searchTerm, currentFilter);
+        });
+
+        // Filter buttons
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active to clicked button
+                this.classList.add('active');
+                
+                currentFilter = this.dataset.filter;
+                const searchTerm = searchInput.value.toLowerCase();
+                filterArticles(searchTerm, currentFilter);
+            });
+        });
+
+        function filterArticles(searchTerm, timeFilter) {
+            let visibleCount = 0;
+            const now = new Date();
+            const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000);
+
+            articles.forEach(article => {
+                const title = article.querySelector('.article-title').textContent.toLowerCase();
+                const description = article.querySelector('.article-description').textContent.toLowerCase();
+                const source = article.querySelector('.article-meta').textContent.toLowerCase();
+                
+                // Get article date
+                const dateText = article.querySelector('.article-meta').textContent;
+                const dateMatch = dateText.match(/\d{4}-\d{2}-\d{2}/);
+                const articleDate = dateMatch ? new Date(dateMatch[0]) : new Date(0);
+
+                // Check search match
+                const matchesSearch = !searchTerm || 
+                                    title.includes(searchTerm) || 
+                                    description.includes(searchTerm) || 
+                                    source.includes(searchTerm);
+
+                // Check time filter
+                let matchesTime = true;
+                if (timeFilter === 'recent') {
+                    matchesTime = articleDate >= oneDayAgo;
+                } else if (timeFilter === 'older') {
+                    matchesTime = articleDate < oneDayAgo;
+                }
+
+                if (matchesSearch && matchesTime) {
+                    article.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    article.classList.add('hidden');
+                }
+            });
+
+            // Show "no results" message if needed
+            updateNoResultsMessage(visibleCount);
+        }
+
+        function updateNoResultsMessage(count) {
+            // Remove existing no-results message
+            const existing = document.querySelector('.no-results');
+            if (existing) existing.remove();
+
+            if (count === 0) {
+                const container = document.querySelector('.articles-container');
+                const noResults = document.createElement('div');
+                noResults.className = 'no-results';
+                noResults.textContent = '🔍 No articles match your search criteria';
+                container.appendChild(noResults);
+            }
+        }
+    </script>
 </body>
 </html>
