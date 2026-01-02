@@ -221,31 +221,31 @@
     </style>
 </head>
 <body>
-    <div class="terminal-header">
-        <div class="header-content">
-            <div class="terminal-title">
-                <div class="status-indicator"></div>
-                <h1>SEMICONDUCTOR INTELLIGENCE TERMINAL</h1>
+<div class="header-content">
+        <div class="terminal-title">
+            <div class="status-indicator"></div>
+            <h1>SEMICONDUCTOR INTELLIGENCE TERMINAL</h1>
+        </div>
+        <div class="meta-info">
+            <div class="meta-item">
+                <span class="meta-label">UPDATED:</span>
+                <span>{{ current_time }}</span>
             </div>
-            <div class="meta-info">
-                <div class="meta-item">
-                    <span class="meta-label">UPDATED:</span>
-                    <span>{{ current_time }}</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">STATUS:</span>
-                    <span style="color: #00ff88;">LIVE</span>
-                </div>
+            <div class="meta-item">
+                <span class="meta-label">STATUS:</span>
+                <span style="color: #00ff88;">LIVE</span>
             </div>
         </div>
+    </div>
+
+    <div class="terminal-header">
         <div class="nav-divider"></div>
         <nav class="terminal-nav">
-            <a href="/" class="nav-tab">FEED</a>
-            <a href="/saved" class="nav-tab active">SAVED</a>
+            <a href="/" class="nav-tab active">FEED</a>
+            <a href="/saved" class="nav-tab">SAVED</a>
             <a href="/about" class="nav-tab">ABOUT</a>
         </nav>
     </div>
-
     <div class="container">
         <div class="page-header">
             <h2 class="page-title">SAVED ARTICLES</h2>
