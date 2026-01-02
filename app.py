@@ -8,6 +8,20 @@ app = Flask(__name__)
 import os
 NEWS_API_KEY = os.environ.get('NEWS_API_KEY')
 
+def remove_duplicates(all_articles):
+    """Remove duplicate articles based on title"""
+    seen_titles = set()
+    unique_articles = []
+    
+    for article in all_articles:
+        title = article.get('title', '').lower().strip()
+        # Skip if we've seen this title or if it's a removal notice
+        if title and title not in seen_titles and '[removed]' not in title:
+            seen_titles.add(title)
+            unique_articles.append(article)
+    
+    return unique_articles
+
 # Topics
 topics = [
     'semiconductors US China',
@@ -35,13 +49,15 @@ def fetch_news(query):
         return []
 
 @app.route('/')
+@app.route('/')
 def home():
     """Main page - shows all news"""
     all_news = {}
     
     for topic in topics:
         articles = fetch_news(topic)
-        all_news[topic] = articles
+        # Remove duplicates for each topic
+        all_news[topic] = remove_duplicates(articles)
     
     return render_template('index.html', 
                          news_data=all_news, 
