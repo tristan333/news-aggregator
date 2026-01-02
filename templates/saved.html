@@ -87,7 +87,34 @@
         .meta-label {
             color: #4a5a6f;
         }
+.terminal-nav-inline {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
 
+        .nav-tab-inline {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            color: #6b7f99;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tab-inline:hover {
+            color: #ffffff;
+        }
+
+        .nav-tab-inline.active {
+            color: #00b8ff;
+        }
+
+        .nav-divider-inline {
+            color: #1e2938;
+            font-size: 11px;
+        }
         .nav-divider {
             max-width: 1400px;
             margin: 0 auto;
@@ -208,11 +235,20 @@
         }
 
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 16px;
-                align-items: flex-start;
-            }
+           .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, #141922 0%, #0f1319 100%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid #1e2938;
+        }
 
             .container {
                 padding: 24px 20px;
@@ -222,26 +258,26 @@
 </head>
 <body>
 <div class="header-content">
-        <div class="terminal-title">
-            <div class="status-indicator"></div>
-            <h1>SEMICONDUCTOR INTELLIGENCE TERMINAL</h1>
-        </div>
-        <div class="meta-info">
-            <div class="meta-item">
-                <span class="meta-label">UPDATED:</span>
-                <span>{{ current_time }}</span>
-            </div>
-            <div class="meta-item">
-                <span class="meta-label">STATUS:</span>
-                <span style="color: #00ff88;">LIVE</span>
-            </div>
+    <div class="terminal-title">
+        <div class="status-indicator"></div>
+        <h1>SEMICONDUCTOR INTELLIGENCE TERMINAL</h1>
+    </div>
+    
+    <nav class="terminal-nav-inline">
+        <a href="/" class="nav-tab-inline active">FEED</a>
+        <span class="nav-divider-inline">|</span>
+        <a href="/saved" class="nav-tab-inline">SAVED</a>
+        <span class="nav-divider-inline">|</span>
+        <a href="/about" class="nav-tab-inline">ABOUT</a>
+    </nav>
+    
+    <div class="meta-info">
+        <div class="meta-item">
+            <span class="meta-label">STATUS:</span>
+            <span style="color: #00ff88;">LIVE</span>
         </div>
     </div>
-
-    <div class="terminal-header">
-        <div class="nav-divider"></div>
-        <nav class="terminal-nav">
-            <a href="/" class="nav-tab active">FEED</a>
+</div>            <a href="/" class="nav-tab active">FEED</a>
             <a href="/saved" class="nav-tab">SAVED</a>
             <a href="/about" class="nav-tab">ABOUT</a>
         </nav>
