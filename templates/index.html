@@ -111,7 +111,7 @@
             border-radius: 4px;
             color: #e0e6ed;
             font-family: 'IBM Plex Mono', monospace;
-            margin-bottom: 16px;
+            margin-bottom: 0;  /* Change to 0 */
             transition: all 0.3s ease;
         }
 
@@ -125,31 +125,31 @@
             color: #6b7f99;
         }
 
-        .clear-btn {
+       .clear-btn {
             position: absolute;
             right: 16px;
             top: 50%;
             transform: translateY(-50%);
             background: #1e2938;
             border: none;
-            color: #6b7f99;
             width: 28px;
             height: 28px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            display: grid;
-            place-items: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.2s ease;
             padding: 0;
-            margin: 0;
-            font-family: 'IBM Plex Mono', monospace;
         }
 
         .clear-btn:hover {
             background: #00b8ff;
-            color: #ffffff;
+        }
+
+        .clear-btn svg {
+            width: 12px;
+            height: 12px;
         }
 
         .filter-options {
@@ -426,14 +426,19 @@
         <!-- Search Bar -->
        <!-- Search Bar -->
     <div class="search-container">
-        <div style="position: relative;">
+        <div style="position: relative; margin-bottom: 16px;">
             <input 
                 type="text" 
                 id="searchInput" 
                 placeholder="Search articles by keyword, source, or topic..."
                 class="search-bar"
             >
-        <button id="clearSearch" class="clear-btn" style="display: none;">×</button>        </div>
+      <button id="clearSearch" class="clear-btn" style="display: none;">
+    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="2" y1="2" x2="10" y2="10"/>
+        <line x1="10" y1="2" x2="2" y2="10"/>
+    </svg>
+</button>     </div>
         <div class="filter-options">
             <button class="filter-btn active" data-filter="all">All Sources</button>
             <button class="filter-btn" data-filter="recent">Last 24h</button>
