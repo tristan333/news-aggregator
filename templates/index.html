@@ -124,6 +124,29 @@
         .search-bar::placeholder {
             color: #6b7f99;
         }
+        .clear-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1e2938;
+            border: none;
+            color: #6b7f99;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .clear-btn:hover {
+            background: #00b8ff;
+            color: #ffffff;
+        }
 
         .filter-options {
             display: flex;
@@ -397,19 +420,23 @@
 
     <div class="container">
         <!-- Search Bar -->
-        <div class="search-container">
+       <!-- Search Bar -->
+    <div class="search-container">
+        <div style="position: relative;">
             <input 
                 type="text" 
                 id="searchInput" 
                 placeholder="Search articles by keyword, source, or topic..."
                 class="search-bar"
             >
-            <div class="filter-options">
-                <button class="filter-btn active" data-filter="all">All Sources</button>
-                <button class="filter-btn" data-filter="recent">Last 24h</button>
-                <button class="filter-btn" data-filter="older">Older</button>
-            </div>
+            <button id="clearSearch" class="clear-btn" style="display: none;">✕</button>
         </div>
+        <div class="filter-options">
+            <button class="filter-btn active" data-filter="all">All Sources</button>
+            <button class="filter-btn" data-filter="recent">Last 24h</button>
+            <button class="filter-btn" data-filter="older">Older</button>
+        </div>
+    </div>
 
         <div class="dashboard-grid">
             {% set total_articles = news_data.values() | map('length') | sum %}
@@ -468,15 +495,27 @@
     <script>
         // Search functionality
         const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearSearch');
         const articles = document.querySelectorAll('.article');
         const filterBtns = document.querySelectorAll('.filter-btn');
         
         let currentFilter = 'all';
 
-        // Search function
+        // Search function - handles both filtering and clear button visibility
         searchInput.addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
+            // Show/hide clear button
+            clearBtn.style.display = searchTerm ? 'flex' : 'none';
+            // Filter articles
             filterArticles(searchTerm, currentFilter);
+        });
+
+        // Clear button
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            clearBtn.style.display = 'none';
+            filterArticles('', currentFilter);
+            searchInput.focus();
         });
 
         // Filter buttons
