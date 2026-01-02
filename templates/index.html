@@ -25,17 +25,16 @@
         .terminal-header {
             background: linear-gradient(180deg, #141922 0%, #0f1319 100%);
             border-bottom: 1px solid #1e2938;
-            padding: 20px 0;
+            padding: 20px 0 0;  /* Changed: removed bottom padding */
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
-
         .header-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 40px;
+            padding: 0 40px 20px;  /* Added bottom padding here */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -99,6 +98,7 @@
             padding: 0 40px;
             display: flex;
             gap: 32px;
+            background: linear-gradient(180deg, #141922 0%, #0f1319 100%);  /* Added background */
         }
 
         .nav-tab {

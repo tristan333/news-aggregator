@@ -8,7 +8,218 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #0a0e1a;
+            color: #e0e6ed;
+            line-height: 1.6;
+        }
+
+        .terminal-header {
+            background: linear-gradient(180deg, #141922 0%, #0f1319 100%);
+            border-bottom: 1px solid #1e2938;
+            padding: 20px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        h1 {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 24px;
+            font-size: 11px;
+            font-family: 'IBM Plex Mono', monospace;
+            color: #6b7f99;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .meta-label {
+            color: #4a5a6f;
+        }
+
+        .nav-divider {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            border-bottom: 1px solid #1e2938;
+        }
+
+        .terminal-nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            gap: 32px;
+            background: linear-gradient(180deg, #141922 0%, #0f1319 100%);
+        }
+
+        .nav-tab {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            color: #6b7f99;
+            text-decoration: none;
+            padding: 16px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tab:hover {
+            color: #ffffff;
+            border-bottom-color: #00b8ff50;
+        }
+
+        .nav-tab.active {
+            color: #00b8ff;
+            border-bottom-color: #00b8ff;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 40px 80px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #1e2938;
+        }
+
+        .page-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 24px;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .action-btn {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            padding: 10px 20px;
+            background: #1a2332;
+            border: 1px solid #1e2938;
+            border-radius: 4px;
+            color: #ff6b6b;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .action-btn:hover {
+            background: #ff6b6b20;
+            border-color: #ff6b6b;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 40px;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            font-size: 15px;
+            color: #6b7f99;
+            margin-bottom: 24px;
+        }
+
+        .empty-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: #00b8ff;
+            text-decoration: none;
+            border: 1px solid #00b8ff30;
+            padding: 12px 24px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .empty-link:hover {
+            background: #00b8ff20;
+            border-color: #00b8ff;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .container {
+                padding: 24px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="terminal-header">
@@ -51,7 +262,5 @@
             </div>
         </div>
     </div>
-
-    <script src="{{ url_for('static', filename='saved.js') }}"></script>
 </body>
 </html>
