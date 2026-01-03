@@ -398,6 +398,43 @@
             font-family: 'IBM Plex Mono', monospace;
         }
 
+        .article-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .save-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #ffd700;
+            background: transparent;
+            border: 1px solid #ffd70030;
+            padding: 8px 16px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 500;
+        }
+
+        .save-btn:hover {
+            background: #ffd70020;
+            border-color: #ffd700;
+        }
+
+        .save-btn.saved {
+            background: #ffd70020;
+            border-color: #ffd700;
+            color: #ffd700;
+        }
+
+        .save-btn.saved::before {
+            content: "✓ ";
+        }
+
         .article-link:hover {
             background: #00b8ff20;
             border-color: #00b8ff;
@@ -575,8 +612,18 @@
                             <span class="meta-divider">|</span>
                             <span>{{ article.publishedAt[11:16] }} UTC</span>
                         </div>
-                        <p class="article-description">{{ article.description }}</p>
-                        <a href="{{ article.url }}" class="article-link" target="_blank">READ FULL REPORT</a>
+                          <p class="article-description">{{ article.description }}</p>
+                        <div class="article-actions">
+                            <a href="{{ article.url }}" class="article-link" target="_blank">READ FULL REPORT</a>
+                            <button class="save-btn" 
+                                    data-title="{{ article.title }}"
+                                    data-url="{{ article.url }}"
+                                    data-description="{{ article.description }}"
+                                    data-source="{{ article.source.name }}"
+                                    data-published="{{ article.publishedAt }}">
+                                ⭐ SAVE
+                            </button>
+                        </div>
                     </article>
                     {% endfor %}
                 {% else %}
@@ -685,6 +732,70 @@
                 container.appendChild(noResults);
             }
         }
+
+        // Save functionality
+        const saveBtns = document.querySelectorAll('.save-btn');
+        
+        // Load saved articles from localStorage
+        function getSavedArticles() {
+            const saved = localStorage.getItem('savedArticles');
+            return saved ? JSON.parse(saved) : [];
+        }
+        
+        // Save article to localStorage
+        function saveArticle(articleData) {
+            let saved = getSavedArticles();
+            saved.push(articleData);
+            localStorage.setItem('savedArticles', JSON.stringify(saved));
+        }
+        
+        // Remove article from localStorage
+        function unsaveArticle(articleUrl) {
+            let saved = getSavedArticles();
+            saved = saved.filter(article => article.url !== articleUrl);
+            localStorage.setItem('savedArticles', JSON.stringify(saved));
+        }
+        
+        // Check if article is already saved
+        function isArticleSaved(articleUrl) {
+            const saved = getSavedArticles();
+            return saved.some(article => article.url === articleUrl);
+        }
+        
+        // Initialize save buttons
+        saveBtns.forEach(btn => {
+            const url = btn.dataset.url;
+            
+            // Mark as saved if already in localStorage
+            if (isArticleSaved(url)) {
+                btn.classList.add('saved');
+                btn.textContent = 'SAVED';
+            }
+            
+            // Handle click
+            btn.addEventListener('click', function() {
+                const articleData = {
+                    title: this.dataset.title,
+                    url: this.dataset.url,
+                    description: this.dataset.description,
+                    source: this.dataset.source,
+                    publishedAt: this.dataset.published
+                };
+                
+                if (this.classList.contains('saved')) {
+                    // Unsave
+                    unsaveArticle(articleData.url);
+                    this.classList.remove('saved');
+                    this.textContent = '⭐ SAVE';
+                } else {
+                    // Save
+                    saveArticle(articleData);
+                    this.classList.add('saved');
+                    this.textContent = 'SAVED';
+                }
+            });
+        });
+    
     </script>
 </body>
 </html>
