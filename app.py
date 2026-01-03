@@ -1,7 +1,8 @@
 from flask import Flask, render_template
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
+import json
 
 app = Flask(__name__)
 
@@ -15,6 +16,38 @@ topics = [
     'TSMC China Taiwan',
     'export controls semiconductors'
 ]
+
+# Cache settings
+CACHE_FILE = '/tmp/news_cache.json'
+CACHE_DURATION = timedelta(minutes=30)  # Cache for 30 minutes
+
+def load_cache():
+    """Load cached data if it exists and is still valid"""
+    try:
+        with open(CACHE_FILE, 'r') as f:
+            cache = json.load(f)
+            cache_time = datetime.fromisoformat(cache['timestamp'])
+            
+            # Check if cache is still valid
+            if datetime.now() - cache_time < CACHE_DURATION:
+                print(f"Using cached data from {cache_time}")
+                return cache['data']
+            else:
+                print("Cache expired")
+                return None
+    except (FileNotFoundError, json.JSONDecodeError, KeyError):
+        print("No valid cache found")
+        return None
+
+def save_cache(data):
+    """Save data to cache with timestamp"""
+    cache = {
+        'timestamp': datetime.now().isoformat(),
+        'data': data
+    }
+    with open(CACHE_FILE, 'w') as f:
+        json.dump(cache, f)
+    print(f"Cache saved at {datetime.now()}")
 
 def remove_duplicates(all_articles):
     """Remove duplicate articles based on title"""
@@ -43,18 +76,36 @@ def fetch_news(query):
     response = requests.get(url, params=params)
     
     if response.status_code == 200:
-        return response.json()['articles']
+        articles = response.json()['articles']
+        return articles
     else:
+        print(f"API Error {response.status_code}: {response.text}")
         return []
 
-@app.route('/')
-def home():
-    """Main page - shows all news"""
+def get_all_news():
+    """Get all news - from cache if available, otherwise fetch fresh"""
+    # Try to load from cache first
+    cached_data = load_cache()
+    if cached_data:
+        return cached_data
+    
+    # Cache miss - fetch fresh data
+    print("Fetching fresh data from API...")
     all_news = {}
     
     for topic in topics:
         articles = fetch_news(topic)
         all_news[topic] = remove_duplicates(articles)
+    
+    # Save to cache
+    save_cache(all_news)
+    
+    return all_news
+
+@app.route('/')
+def home():
+    """Main page - shows all news"""
+    all_news = get_all_news()
     
     return render_template('index.html', 
                          news_data=all_news, 
