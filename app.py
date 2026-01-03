@@ -19,7 +19,7 @@ topics = [
 
 # Cache settings
 CACHE_FILE = '/tmp/news_cache.json'
-CACHE_DURATION = timedelta(minutes=30)  # Cache for 30 minutes
+CACHE_DURATION = timedelta(hours=1)  # Cache for 1 hour
 
 def load_cache():
     """Load cached data if it exists and is still valid"""
