@@ -263,6 +263,58 @@
             border-color: #00b8ff;
         }
 
+        .sentiment-examples {
+            margin-top: 24px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .sentiment-example {
+            background: linear-gradient(135deg, #1a2332 0%, #141d2b 100%);
+            border: 1px solid #1e2938;
+            border-left: 3px solid;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .sentiment-example.positive {
+            border-left-color: #00ff88;
+        }
+
+        .sentiment-example.negative {
+            border-left-color: #ff6b6b;
+        }
+
+        .sentiment-example.neutral {
+            border-left-color: #6b7f99;
+        }
+
+        .sentiment-example-badge {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .sentiment-example.positive .sentiment-example-badge {
+            color: #00ff88;
+        }
+
+        .sentiment-example.negative .sentiment-example-badge {
+            color: #ff6b6b;
+        }
+
+        .sentiment-example.neutral .sentiment-example-badge {
+            color: #9ca9ba;
+        }
+
+        .sentiment-example p {
+            font-size: 14px;
+            margin: 0;
+        }
+
       @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -358,6 +410,40 @@
             </ul>
             <p>Articles are automatically deduplicated, filtered by relevance, and updated in real-time. The terminal pulls from major financial publications, technology news outlets, and policy journals.</p>
         </div>
+
+        <div class="about-section">
+            <div class="section-title">SENTIMENT ANALYSIS</div>
+            <h2>Machine Learning-Powered Insights</h2>
+            <p>Every article is analyzed in real-time using <strong>VADER (Valence Aware Dictionary and sEntiment Reasoner)</strong>, a natural language processing model specifically tuned for news and social media content.</p>
+            
+            <p>The system examines both article titles and descriptions, processing linguistic features including:</p>
+            <ul>
+                <li><strong>Lexical Analysis:</strong> Identifying positive and negative keywords (e.g., "breakthrough" vs. "restriction")</li>
+                <li><strong>Contextual Understanding:</strong> Recognizing intensifiers, negations, and qualifiers that modify sentiment</li>
+                <li><strong>Punctuation Signals:</strong> Detecting emphasis through capitalization and exclamation marks</li>
+                <li><strong>Domain Adaptation:</strong> Tuned for financial and geopolitical language patterns</li>
+            </ul>
+            
+            <p>Articles are classified into three categories:</p>
+            
+            <div class="sentiment-examples">
+                <div class="sentiment-example positive">
+                    <div class="sentiment-example-badge">🟢 BULLISH</div>
+                    <p>Positive developments: technology breakthroughs, partnerships, investments, regulatory approvals</p>
+                </div>
+                <div class="sentiment-example negative">
+                    <div class="sentiment-example-badge">🔴 BEARISH</div>
+                    <p>Negative developments: export restrictions, supply chain disruptions, trade tensions, sanctions</p>
+                </div>
+                <div class="sentiment-example neutral">
+                    <div class="sentiment-example-badge">⚪ NEUTRAL</div>
+                    <p>Factual reporting: announcements, data releases, analysis without clear directional bias</p>
+                </div>
+            </div>
+            
+            <p>The aggregate sentiment breakdown provides a real-time pulse on whether semiconductor news trends positive, negative, or neutral—offering insight into market sentiment and geopolitical temperature.</p>
+        </div>
+
 
         <div class="about-section">
             <div class="section-title">TECHNICAL STACK</div>
