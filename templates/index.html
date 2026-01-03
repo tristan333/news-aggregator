@@ -287,6 +287,57 @@
             font-family: 'IBM Plex Mono', monospace;
         }
 
+        .sentiment-breakdown {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .sentiment-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #ffffff;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .sentiment-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .sentiment-dot.positive {
+            background: #00ff88;
+            box-shadow: 0 0 8px #00ff8850;
+        }
+
+        .sentiment-dot.negative {
+            background: #ff6b6b;
+            box-shadow: 0 0 8px #ff6b6b50;
+        }
+
+        .sentiment-dot.neutral {
+            background: #6b7f99;
+        }
+
+        /* Sentiment badge colors */
+        .article-priority.positive {
+            background: #00ff8820;
+            color: #00ff88;
+        }
+
+        .article-priority.negative {
+            background: #ff6b6b20;
+            color: #ff6b6b;
+        }
+
+        .article-priority.neutral {
+            background: #6b7f9920;
+            color: #9ca9ba;
+        }
+
         .topic-section {
             margin-bottom: 50px;
             background: linear-gradient(135deg, #141d2b 0%, #0f1621 100%);
@@ -572,7 +623,7 @@
             <button class="filter-btn" data-filter="recent">Last 24h</button>
             <button class="filter-btn" data-filter="older">Older</button>
         </div>
-    </div>
+   </div>
 
         <div class="dashboard-grid">
             {% set total_articles = news_data.values() | map('length') | sum %}
@@ -587,6 +638,23 @@
             <div class="stat-card">
                 <div class="stat-label">Last Refresh</div>
                 <div class="stat-value" style="font-size: 16px;">{{ current_time.split()[1][:5] }}</div>
+            </div>
+            <div class="stat-card sentiment-card">
+                <div class="stat-label">Sentiment</div>
+                <div class="sentiment-breakdown">
+                    <div class="sentiment-item">
+                        <span class="sentiment-dot positive"></span>
+                        <span>{{ sentiment_stats.positive }}%</span>
+                    </div>
+                    <div class="sentiment-item">
+                        <span class="sentiment-dot negative"></span>
+                        <span>{{ sentiment_stats.negative }}%</span>
+                    </div>
+                    <div class="sentiment-item">
+                        <span class="sentiment-dot neutral"></span>
+                        <span>{{ sentiment_stats.neutral }}%</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -603,8 +671,7 @@
                     <article class="article">
                         <div class="article-header">
                             <h3 class="article-title">{{ article.title }}</h3>
-                            <span class="article-priority">PRIORITY</span>
-                        </div>
+                                <span class="article-priority {{ article.sentiment.category }}">{{ article.sentiment.label }}</span>                        </div>
                         <div class="article-meta">
                             <span>{{ article.source.name }}</span>
                             <span class="meta-divider">|</span>

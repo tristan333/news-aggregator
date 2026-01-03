@@ -3,8 +3,12 @@ import requests
 from datetime import datetime, timedelta
 import os
 import json
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 app = Flask(__name__)
+
+# Initialize sentiment analyzer
+analyzer = SentimentIntensityAnalyzer()
 
 # Your News API key
 NEWS_API_KEY = os.environ.get('NEWS_API_KEY')
@@ -19,7 +23,32 @@ topics = [
 
 # Cache settings
 CACHE_FILE = '/tmp/news_cache.json'
-CACHE_DURATION = timedelta(hours=1)  # Cache for 1 hour
+CACHE_DURATION = timedelta(hours=1)
+
+def analyze_sentiment(text):
+    """Analyze sentiment of text and return category and score"""
+    if not text:
+        return {'category': 'neutral', 'score': 0, 'label': 'NEUTRAL'}
+    
+    scores = analyzer.polarity_scores(text)
+    compound = scores['compound']
+    
+    # Categorize based on compound score
+    if compound >= 0.05:
+        category = 'positive'
+        label = 'BULLISH'
+    elif compound <= -0.05:
+        category = 'negative'
+        label = 'BEARISH'
+    else:
+        category = 'neutral'
+        label = 'NEUTRAL'
+    
+    return {
+        'category': category,
+        'score': compound,
+        'label': label
+    }
 
 def load_cache():
     """Load cached data if it exists and is still valid"""
@@ -28,15 +57,11 @@ def load_cache():
             cache = json.load(f)
             cache_time = datetime.fromisoformat(cache['timestamp'])
             
-            # Check if cache is still valid
             if datetime.now() - cache_time < CACHE_DURATION:
-                print(f"Using cached data from {cache_time}")
                 return cache['data']
             else:
-                print("Cache expired")
                 return None
     except (FileNotFoundError, json.JSONDecodeError, KeyError):
-        print("No valid cache found")
         return None
 
 def save_cache(data):
@@ -47,7 +72,6 @@ def save_cache(data):
     }
     with open(CACHE_FILE, 'w') as f:
         json.dump(cache, f)
-    print(f"Cache saved at {datetime.now()}")
 
 def remove_duplicates(all_articles):
     """Remove duplicate articles based on title"""
@@ -76,39 +100,74 @@ def fetch_news(query):
     response = requests.get(url, params=params)
     
     if response.status_code == 200:
-        articles = response.json()['articles']
-        return articles
+        return response.json()['articles']
     else:
-        print(f"API Error {response.status_code}: {response.text}")
         return []
+
+def add_sentiment_to_articles(articles):
+    """Add sentiment analysis to each article"""
+    for article in articles:
+        # Analyze title + description for better accuracy
+        text = f"{article.get('title', '')} {article.get('description', '')}"
+        sentiment = analyze_sentiment(text)
+        article['sentiment'] = sentiment
+    
+    return articles
 
 def get_all_news():
     """Get all news - from cache if available, otherwise fetch fresh"""
-    # Try to load from cache first
     cached_data = load_cache()
     if cached_data:
         return cached_data
     
-    # Cache miss - fetch fresh data
-    print("Fetching fresh data from API...")
     all_news = {}
     
     for topic in topics:
         articles = fetch_news(topic)
-        all_news[topic] = remove_duplicates(articles)
+        unique_articles = remove_duplicates(articles)
+        # Add sentiment analysis
+        articles_with_sentiment = add_sentiment_to_articles(unique_articles)
+        all_news[topic] = articles_with_sentiment
     
-    # Save to cache
     save_cache(all_news)
-    
     return all_news
+
+def calculate_sentiment_stats(all_news):
+    """Calculate overall sentiment breakdown"""
+    total = 0
+    positive = 0
+    negative = 0
+    neutral = 0
+    
+    for articles in all_news.values():
+        for article in articles:
+            total += 1
+            category = article.get('sentiment', {}).get('category', 'neutral')
+            if category == 'positive':
+                positive += 1
+            elif category == 'negative':
+                negative += 1
+            else:
+                neutral += 1
+    
+    if total == 0:
+        return {'positive': 0, 'negative': 0, 'neutral': 0}
+    
+    return {
+        'positive': round((positive / total) * 100),
+        'negative': round((negative / total) * 100),
+        'neutral': round((neutral / total) * 100)
+    }
 
 @app.route('/')
 def home():
     """Main page - shows all news"""
     all_news = get_all_news()
+    sentiment_stats = calculate_sentiment_stats(all_news)
     
     return render_template('index.html', 
-                         news_data=all_news, 
+                         news_data=all_news,
+                         sentiment_stats=sentiment_stats,
                          current_time=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
 @app.route('/saved')
