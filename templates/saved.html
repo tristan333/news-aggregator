@@ -22,11 +22,10 @@
             line-height: 1.6;
         }
 
-                   .terminal-header {
+        .terminal-header {
             background: linear-gradient(180deg, #141922 0%, #0f1319 100%);
             border-bottom: 1px solid #1e2938;
         }
-
 
         .header-content {
             max-width: 1400px;
@@ -87,7 +86,8 @@
         .meta-label {
             color: #4a5a6f;
         }
-.terminal-nav-inline {
+
+        .terminal-nav-inline {
             display: flex;
             align-items: center;
             gap: 16px;
@@ -115,47 +115,13 @@
             color: #1e2938;
             font-size: 11px;
         }
-        .nav-divider {
+
+        .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 40px;
-            border-bottom: 1px solid #1e2938;
+            padding: 24px 40px 80px;
         }
 
-        .terminal-nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 16px 40px;
-            display: flex;
-            gap: 32px;
-        }
-      .nav-tab {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            color: #6b7f99;
-            text-decoration: none;
-            padding: 0 0 16px 0;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s ease;
-        }
-
-        .nav-tab:hover {
-            color: #ffffff;
-            border-bottom-color: #00b8ff50;
-        }
-
-        .nav-tab.active {
-            color: #00b8ff;
-            border-bottom-color: #00b8ff;
-        }
-
-.container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 24px 40px 80px;  /* Changed from 40px to 24px */
-        }
         .page-header {
             display: flex;
             justify-content: space-between;
@@ -187,6 +153,98 @@
         }
 
         .action-btn:hover {
+            background: #ff6b6b20;
+            border-color: #ff6b6b;
+        }
+
+        .saved-article {
+            background: linear-gradient(135deg, #141d2b 0%, #0f1621 100%);
+            border: 1px solid #1e2938;
+            border-radius: 4px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .article-title {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #ffffff;
+            letter-spacing: -0.2px;
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 11px;
+            color: #6b7f99;
+            margin-bottom: 14px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .meta-divider {
+            color: #2d3e52;
+        }
+
+        .article-description {
+            font-size: 14px;
+            color: #9ca9ba;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .article-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #00b8ff;
+            text-decoration: none;
+            font-weight: 500;
+            border: 1px solid #00b8ff30;
+            padding: 8px 16px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .article-link:hover {
+            background: #00b8ff20;
+            border-color: #00b8ff;
+        }
+
+        .remove-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #ff6b6b;
+            background: transparent;
+            border: 1px solid #ff6b6b30;
+            padding: 8px 16px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 500;
+        }
+
+        .remove-btn:hover {
             background: #ff6b6b20;
             border-color: #ff6b6b;
         }
@@ -233,7 +291,7 @@
             border-color: #00b8ff;
         }
 
-     @media (max-width: 768px) {
+        @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 align-items: center;
@@ -264,24 +322,10 @@
             .container {
                 padding: 20px 16px;
             }
-
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .search-container {
-                padding: 16px;
-            }
-
-            .topic-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
         }
-</style>
-    </head>
-        <body>
+    </style>
+</head>
+<body>
 <div class="header-content">
     <div class="terminal-title">
         <div class="status-indicator"></div>
@@ -310,18 +354,108 @@
 
 <div class="container">
     <div class="page-header">
-            <h2 class="page-title">SAVED ARTICLES</h2>
-            <button id="clearAllBtn" class="action-btn" style="display: none;">CLEAR ALL</button>
-        </div>
+        <h2 class="page-title">SAVED ARTICLES</h2>
+        <button id="clearAllBtn" class="action-btn" style="display: none;">CLEAR ALL</button>
+    </div>
 
-        <div id="savedArticlesContainer">
-            <div class="empty-state">
-                <div class="empty-icon">📚</div>
-                <h3>No saved articles yet</h3>
-                <p>Start saving articles from the feed to build your collection</p>
-                <a href="/" class="empty-link">Go to Feed →</a>
-            </div>
+    <div id="savedArticlesContainer">
+        <div class="empty-state" id="emptyState">
+            <div class="empty-icon">📚</div>
+            <h3>No saved articles yet</h3>
+            <p>Start saving articles from the feed to build your collection</p>
+            <a href="/" class="empty-link">Go to Feed →</a>
         </div>
     </div>
+</div>
+
+<script>
+    // Load saved articles from localStorage
+    function getSavedArticles() {
+        const saved = localStorage.getItem('savedArticles');
+        return saved ? JSON.parse(saved) : [];
+    }
+    
+    // Remove article from localStorage
+    function removeArticle(articleUrl) {
+        let saved = getSavedArticles();
+        saved = saved.filter(article => article.url !== articleUrl);
+        localStorage.setItem('savedArticles', JSON.stringify(saved));
+        displaySavedArticles(); // Refresh display
+    }
+    
+    // Clear all saved articles
+    function clearAllArticles() {
+        if (confirm('Are you sure you want to remove all saved articles?')) {
+            localStorage.removeItem('savedArticles');
+            displaySavedArticles(); // Refresh display
+        }
+    }
+    
+    // Display saved articles
+    function displaySavedArticles() {
+        const saved = getSavedArticles();
+        const container = document.getElementById('savedArticlesContainer');
+        const emptyState = document.getElementById('emptyState');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        
+        if (saved.length === 0) {
+            // Show empty state
+            emptyState.style.display = 'block';
+            clearAllBtn.style.display = 'none';
+            
+            // Remove any existing articles
+            const existingArticles = container.querySelectorAll('.saved-article');
+            existingArticles.forEach(el => el.remove());
+        } else {
+            // Hide empty state
+            emptyState.style.display = 'none';
+            clearAllBtn.style.display = 'block';
+            
+            // Clear container (except empty state)
+            const existingArticles = container.querySelectorAll('.saved-article');
+            existingArticles.forEach(el => el.remove());
+            
+            // Add each saved article
+            saved.forEach(article => {
+                const articleEl = document.createElement('div');
+                articleEl.className = 'saved-article';
+                
+                articleEl.innerHTML = `
+                    <div class="article-header">
+                        <h3 class="article-title">${article.title}</h3>
+                    </div>
+                    <div class="article-meta">
+                        <span>${article.source}</span>
+                        <span class="meta-divider">|</span>
+                        <span>${article.publishedAt.substring(0, 10)}</span>
+                        <span class="meta-divider">|</span>
+                        <span>${article.publishedAt.substring(11, 16)} UTC</span>
+                    </div>
+                    <p class="article-description">${article.description || 'No description available'}</p>
+                    <div class="article-actions">
+                        <a href="${article.url}" class="article-link" target="_blank">READ FULL REPORT →</a>
+                        <button class="remove-btn" data-url="${article.url}">🗑️ REMOVE</button>
+                    </div>
+                `;
+                
+                container.appendChild(articleEl);
+            });
+            
+            // Add event listeners to remove buttons
+            const removeBtns = container.querySelectorAll('.remove-btn');
+            removeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    removeArticle(this.dataset.url);
+                });
+            });
+        }
+    }
+    
+    // Clear all button handler
+    document.getElementById('clearAllBtn').addEventListener('click', clearAllArticles);
+    
+    // Load saved articles when page loads
+    displaySavedArticles();
+</script>
 </body>
 </html>
