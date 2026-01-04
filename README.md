@@ -177,4 +177,4 @@ This project is open source and available for educational purposes. Built in pub
 
 ---
 
-**⚡ Built with Claude AI assistance | Deployed on Render | Powered by NewsAPI**
+**⚡ Deployed on Render | Powered by NewsAPI**
